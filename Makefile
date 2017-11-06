@@ -5,6 +5,7 @@ dbg:
 	(cd test_ambilight; make)
 	(cd test_led; make)
 	(cd test_video; make)
+	(sudo cp ambilight/ambilight /usr/bin/ambilight)
 
 rel:
 	(cd led; make rel)
@@ -13,6 +14,7 @@ rel:
 	(cd test_ambilight; make rel)
 	(cd test_led; make rel)
 	(cd test_video; make rel)
+	(sudo cp ambilight/ambilight /usr/bin/ambilight)
 
 clean:
 	(cd led; make clean)

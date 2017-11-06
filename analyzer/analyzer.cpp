@@ -188,5 +188,21 @@ Color Analyzer::analyzeCut(cv::Mat& slice) {
 	greenValue /= pixels;
 	blueValue /= pixels;
 
+	// Colors from the capture card seem to come in on a 39-251 range.
+	// Remap to full range.
+	const int kLow = 39;
+	const int kHigh = 251;
+
+	redValue = mapRange(redValue, kLow, kHigh, 0, 255);
+	greenValue = mapRange(greenValue, kLow, kHigh, 0, 255);
+	blueValue = mapRange(blueValue, kLow, kHigh, 0, 255);
+
 	return Color(redValue, greenValue, blueValue);
+}
+
+int Analyzer::mapRange(int val, int fromLow, int fromHigh, int toLow, int toHigh) {
+	float result = toLow + ((float)(toHigh - toLow) / (float)(fromHigh - fromLow)) * (float)(val - fromLow);
+	result = result < 0 ? 0 : result;
+	result = result > 255 ? 255 : result;
+	return (int)result;
 }

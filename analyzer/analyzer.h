@@ -49,4 +49,5 @@ public:
 private:
 
 	Color analyzeCut(cv::Mat& slice);
+	int mapRange(int val, int fromLow, int fromHigh, int toLow, int toHigh);
 };
