@@ -46,10 +46,15 @@ void updateVideo(
 	LPD8806& strip) {
 
 	cv::Rect clip(10, 10, 690, 460);
+
 	pthread_mutex_lock(&lock);
+
+	// TODO: This could be made better by waiting for a frame to ready
+	// by the decode thread.
 	frame = raw(clip);
 	double blendFactor = 1.0 / BLEND_FRAMES;
 	cv::addWeighted(blend, 1.0 - blendFactor, frame, blendFactor, 0.0, blend);
+
 	pthread_mutex_unlock(&lock);
 
 	analyzer.analyze(blend);

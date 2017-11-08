@@ -1,0 +1,5 @@
+Things that I would like to do in the future:
+* Make the program read a global config file for parameters like expected
+capture range, LED count, blend and smooth parameters, etc.
+* Make install step that installs the service file and adds the program to
+the startup list.

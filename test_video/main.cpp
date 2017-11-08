@@ -18,8 +18,6 @@ bool terminate = false;
 void* decode(void* arg) {
 	while (!terminate) {
 		pthread_mutex_lock(&lock);
-		//raw = cv::Mat::zeros(raw.rows, raw.cols, raw.type());
-		//cap >> raw;
 		if (cap.grab()) {
 			raw = cv::Mat::zeros(raw.rows, raw.cols, raw.type());
 			cap.retrieve(raw);
@@ -27,17 +25,6 @@ void* decode(void* arg) {
 		else {
 			printf("Could not retrieve frame.\n");
 		}
-		pthread_mutex_unlock(&lock);
-		usleep(1000);
-	}
-
-	return 0;
-}
-
-void* display(void* arg) {
-	while (!terminate) {
-		pthread_mutex_lock(&lock);
-		cv::imshow("video", frame);
 		pthread_mutex_unlock(&lock);
 		usleep(1000);
 	}
@@ -57,8 +44,6 @@ int main() {
 
 	cv::namedWindow("video", cv::WINDOW_AUTOSIZE);
 
-	//pthread_create(&(tid[1]), NULL, &display, NULL);
-
 	while (!terminate) {
 		pthread_mutex_lock(&lock);
 		frame = raw(clip);
@@ -73,7 +58,6 @@ int main() {
 	}
 
 	pthread_join(tid[0], NULL);
-	//pthread_join(tid[1], NULL);
 
 	cap.release();
 	cv::destroyAllWindows();

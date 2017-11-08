@@ -64,47 +64,21 @@ int main() {
 	cv::namedWindow("led", cv::WINDOW_AUTOSIZE);
 	while (true) {
 		led.setTo(cv::Scalar(0,0,0));
-		//usleep(1000 * 1000);
-
-		//clock_t start = clock();
-		//cap.grab();
-		//cap.retrieve(raw);
 
 		pthread_mutex_lock(&lock);
-		clock_t start = clock();
-		//cv::Mat blend(raw[0]);
-		//for (int i = 1; i < BUFFER_SIZE; ++i) {
-		//	cv::addWeighted(blend, 0.7, raw[i], 0.3, 0.0, blend);
-		//}
-		//raw = cv::Mat::zeros(raw.rows, raw.cols, raw.type());
-		//if (!cap.retrieve(raw)) {
-		//	printf("Could not retrieve frame.\n");
-		//}
-		//cv::addWeighted(blend, 0.4, raw, 0.6, 0.0, blend);
-		//cv::medianBlur(raw, raw, 3);
-		clock_t end = clock();
-		//std::cout << "Blur took " << dur << "ms." << std::endl;
 
-		//std::cout << raw.cols << " " << raw.rows << std::endl;
 		frame = raw(clip);
 		cv::addWeighted(blend, 1.0 - blendWeight, frame, blendWeight, 0.0, blend);
 
 		pthread_mutex_unlock(&lock);
-		//clock_t end = clock();
-		//double dur = 1000.0 * (end - start) / CLOCKS_PER_SEC;
-		//std::cout << "Frame decode took " << dur << "ms." << std::endl;
 
 		analyzer.analyze(blend);
-		start = clock();
+
 		for (int i = 0; i < SMOOTH_PASSES; ++i) {
 			analyzer.smooth();
 		}
 		analyzer.blend();
-		end = clock();
-		double dur = 1000.0 * (end - start) / CLOCKS_PER_SEC;
-		//printf("Smooth took %fms\n", dur);
 
-		//cv::Mat led(frame.rows, frame.cols, CV_8UC3, cv::Scalar(0,0,0));
 		int frameWidth = frame.cols;
 		int frameHeight = frame.rows;
 
@@ -118,8 +92,6 @@ int main() {
 			cv::Mat slice = led(cut);
 			Color result = analyzer.getResult(i);
 			slice.setTo(cv::Scalar(result.b, result.g, result.r));
-			//cv::Mat frameCut = frame(cut);
-			//frameCut.copyTo(slice);
 		}
 
 		for (int i = 0; i < width; ++i) {
@@ -127,8 +99,6 @@ int main() {
 			cv::Mat slice = led(cut);
 			Color result = analyzer.getResult(height + i);
 			slice.setTo(cv::Scalar(result.b, result.g, result.r));
-			//cv::Mat frameCut = frame(cut);
-			//frameCut.copyTo(slice);
 		}
 
 		for (int i = 0; i < height; ++i) {
@@ -136,8 +106,6 @@ int main() {
 			cv::Mat slice = led(cut);
 			Color result = analyzer.getResult(height + width + i);
 			slice.setTo(cv::Scalar(result.b, result.g, result.r));
-			//cv::Mat frameCut = frame(cut);
-			//frameCut.copyTo(slice);
 		}
 
 		cv::imshow("frame", blend);
