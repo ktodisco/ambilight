@@ -5,3 +5,4 @@ capture range, LED count, blend and smooth parameters, etc.
 the startup list.
 * There's an annoying bug with the service file where issuing the stop
 command will instead attempt to start it.  Not sure why.
+* Stricter warning compile settings.
