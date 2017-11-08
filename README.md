@@ -16,7 +16,7 @@ Download and build OpenCV 3.1.0 on your Raspberry Pi.  Warning: this is a length
 step.
 
 Verify your setup with the code.  You may need to change the macro `LED_COUNT`
-in `ambilight/main.cpp` and `test_led` to the number of LEDs in your rig.
+in `ambilight/main.cpp` and `test_led/main.cpp` to the number of LEDs in your rig.
 
 ## Building
 To build the project, run `make rel` from the top level.  This will build the
@@ -25,6 +25,13 @@ release version of the code.  To build debug, simply run `make`.
 ## Installing
 Copy `service/ambilight` to `/etc/init.d/`.  Then, set the service to run at
 startup using the following command:
+
+```
     sudo update-rc.d ambilight defaults
+```
+
 If you ever want to remove the ambilight service from startup, run:
+
+```
     sudo update-rc.d -f ambilight remove
+```
