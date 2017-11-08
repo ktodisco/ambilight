@@ -25,6 +25,6 @@ release version of the code.  To build debug, simply run `make`.
 ## Installing
 Copy `service/ambilight` to `/etc/init.d/`.  Then, set the service to run at
 startup using the following command:
-`sudo update-rc.d ambilight defaults`
+    sudo update-rc.d ambilight defaults
 If you ever want to remove the ambilight service from startup, run:
-`sudo update-rc.d -f ambilight remove`
+    sudo update-rc.d -f ambilight remove
