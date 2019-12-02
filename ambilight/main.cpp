@@ -76,6 +76,11 @@ void updateNoVideo(LPD8806& strip) {
 }
 
 int main() {
+	// HACK: Sleep for 10 seconds to allow for the Pi to complete its boot
+	// process.  Without this, something about the input video stream
+	// isn't ready and the values we'll put out to the LEDs will be bad.
+	sleep(10);
+
 	std::cout << "Initializing video capture with OpenCV 3.1.0." << std::endl;
 
 	OP_MODE mode = NORMAL;
